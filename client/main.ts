@@ -37,11 +37,32 @@ async function fetchData(endpoint:string) {
   }
 };
 
+async function measureReponseTime(endpoint:string): Promise<number> {
+  const start = performance.now()
+
+  try {
+    const response = await axiosInstance.get(endpoint);
+  } catch (error) {
+    console.error('Error ', (error as Error).message);
+    throw error;
+  }
+
+  const end = performance.now()
+
+  return end - start
+}
+
+// TODO
+function printPrerensentativeVals(responseTimeList:number[]) {
+  
+}
+
 // メイン処理
-try {
-  const data = await fetchData('/data');
-  console.log('Fetched Data:', data);
-} catch (error) {
-  console.error('Error ', (error as Error).message);
+const responseTimeArray: number[] = []
+
+for (let index = 0; index < 10000; index++) {
+  responseTimeArray.push(
+    await measureReponseTime("/test")
+  )
 }
 
