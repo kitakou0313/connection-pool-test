@@ -7,7 +7,7 @@ const PORT = 3000;
 app.use(express.json());
 
 // シンプルなルート
-app.get('/', (req, res) => {
+app.get('/test', (req, res) => {
   res.json({ message: 'Hello, world!' });
 });
 
