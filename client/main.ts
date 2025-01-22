@@ -53,8 +53,13 @@ async function measureReponseTime(endpoint:string): Promise<number> {
 }
 
 // TODO
-function printPrerensentativeVals(responseTimeList:number[]) {
-  
+function printPrerensentativeVals(responseTimeArray:number[]) {
+  const min = Math.min(...responseTimeArray)
+  const max = Math.max(...responseTimeArray)
+
+  const tile99 = responseTimeArray.sort()[Math.floor(responseTimeArray.length * 0.99)]
+
+  console.log(`Min: ${min}, Max: ${max}, 99%tile: ${tile99}`)
 }
 
 // メイン処理
@@ -66,3 +71,4 @@ for (let index = 0; index < 10000; index++) {
   )
 }
 
+printPrerensentativeVals(responseTimeArray)
