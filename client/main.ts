@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { promises } from 'dns';
 import http from 'http';
 
 const httpAgentWithKeepAlive = new http.Agent({
@@ -21,7 +22,12 @@ async function measureReponseTime(endpoint:string, axiosInstance:AxiosInstance):
   
   const start = performance.now()
   try {
-    const responses = await axiosInstance.get(endpoint);
+    const promises: Promise<number>[] = []
+      for (let index = 0; index < 4; index++) {
+        promises.push(axiosInstance.get(endpoint))
+      }
+    const responses = await Promise.all(promises);
+    
   } catch (error) {
     console.error('Error ', (error as Error).message);
     throw error;
