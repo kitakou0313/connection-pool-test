@@ -17,16 +17,11 @@ const httpAgentWithoutKeepAlive = new http.Agent({
 
 const URL = "http://localhost:3000"
 
-async function measureReponseTime(endpoint:string, httpAgent:http.Agent): Promise<number> {  
-  // Axiosインスタンスの作成
-  const axiosInstance = axios.create({
-    httpAgent,
-    baseURL: URL, // 外部APIのベースURL
-  });
+async function measureReponseTime(endpoint:string, axiosInstance:AxiosInstance): Promise<number> {  
   
   const start = performance.now()
   try {
-    const response = await axiosInstance.get(endpoint);
+    const responses = await axiosInstance.get(endpoint);
   } catch (error) {
     console.error('Error ', (error as Error).message);
     throw error;
@@ -42,21 +37,34 @@ function printPrerensentativeVals(responseTimeArray:number[]) {
   const max = Math.max(...responseTimeArray)
 
   const tile99 = responseTimeArray.sort()[Math.floor(responseTimeArray.length * 0.99) - 1]
+  const tile999 = responseTimeArray.sort()[Math.floor(responseTimeArray.length * 0.999) - 1]
 
-  console.log(`Min: ${min}, 99%tile: ${tile99}, Max: ${max}`)
+  console.log(`Min: ${min}, 99%tile: ${tile99}, 99.9%tile: ${tile999}, Max: ${max}`)
 }
 
 // メイン処理
 const responseTimeWithKeepAliveArray: number[] = []
 const responseTimeWithoutKeepAliveArray: number[] = []
 
+const axiosInstanceWithKeepalive = axios.create({
+  httpAgent: httpAgentWithKeepAlive,
+  baseURL: URL, // 外部APIのベースURL
+});
+
+const axiosInstanceWithoutKeepalive = axios.create({
+  httpAgent: httpAgentWithoutKeepAlive,
+  baseURL: URL, // 外部APIのベースURL
+});
+
 for (let index = 0; index < 10000; index++) {
   responseTimeWithKeepAliveArray.push(
-    await measureReponseTime("/test", httpAgentWithKeepAlive)
+    await measureReponseTime("/test", axiosInstanceWithKeepalive)
   )
+}
 
+for (let index = 0; index < 10000; index++) {
   responseTimeWithoutKeepAliveArray.push(
-    await measureReponseTime("/test", httpAgentWithoutKeepAlive)
+    await measureReponseTime("/test", axiosInstanceWithoutKeepalive)
   )
 }
 
