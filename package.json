@@ -4,7 +4,9 @@
   "description": "Test repo for Performance test related with Connection Pool",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node --loader ts-node/esm server/main.ts",
+    "client": "node --loader ts-node/esm client/main.ts"
   },
   "author": "",
   "license": "MIT",
