@@ -3,15 +3,15 @@ import http from 'http';
 
 const httpAgentWithKeepAlive = new http.Agent({
   keepAlive: true, // 持続的な接続を有効化
-  maxSockets: 10,  // 同時に開くソケットの最大数
-  maxFreeSockets: 5, // 空いているソケットの最大数
+  maxSockets: 3,  // 同時に開くソケットの最大数
+  maxFreeSockets: 3, // 空いているソケットの最大数
   timeout: 60000,  // ソケットのタイムアウト（ミリ秒）
 });
 
 const httpAgentWithoutKeepAlive = new http.Agent({
   keepAlive: false, // 持続的な接続を有効化
-  maxSockets: 10,  // 同時に開くソケットの最大数
-  maxFreeSockets: 5, // 空いているソケットの最大数
+  maxSockets: 3,  // 同時に開くソケットの最大数
+  maxFreeSockets: 3, // 空いているソケットの最大数
   timeout: 60000,  // ソケットのタイムアウト（ミリ秒）
 });
 
@@ -70,5 +70,5 @@ for (let index = 0; index < 10000; index++) {
 
 console.log("With Keep-alive")
 printPrerensentativeVals(responseTimeWithKeepAliveArray)
-console.log("Without Keep-aliveの設定")
+console.log("Without Keep-alive")
 printPrerensentativeVals(responseTimeWithoutKeepAliveArray)
