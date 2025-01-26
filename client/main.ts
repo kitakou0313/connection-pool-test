@@ -43,7 +43,7 @@ function printPrerensentativeVals(responseTimeArray:number[]) {
 
   const tile99 = responseTimeArray.sort()[Math.floor(responseTimeArray.length * 0.99) - 1]
 
-  console.log(`Min: ${min}, Max: ${max}, 99%tile: ${tile99}`)
+  console.log(`Min: ${min}, 99%tile: ${tile99}, Max: ${max}`)
 }
 
 // メイン処理
@@ -60,5 +60,7 @@ for (let index = 0; index < 10000; index++) {
   )
 }
 
+console.log("With Keep-alive")
 printPrerensentativeVals(responseTimeWithKeepAliveArray)
+console.log("Without Keep-aliveの設定")
 printPrerensentativeVals(responseTimeWithoutKeepAliveArray)
