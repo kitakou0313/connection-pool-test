@@ -57,15 +57,28 @@ const axiosInstanceWithoutKeepalive = axios.create({
   baseURL: URL, // 外部APIのベースURL
 });
 
+
 for (let index = 0; index < 10000; index++) {
+  const promises: Promise<number>[] = []
+
+  for (let index = 0; index < 4; index++) {
+    promises.push(measureReponseTime("/test", axiosInstanceWithKeepalive))
+  }
+
   responseTimeWithKeepAliveArray.push(
-    await measureReponseTime("/test", axiosInstanceWithKeepalive)
+    ...await Promise.all(promises)
   )
 }
 
 for (let index = 0; index < 10000; index++) {
+  const promises: Promise<number>[] = []
+
+  for (let index = 0; index < 4; index++) {
+    promises.push(measureReponseTime("/test", axiosInstanceWithoutKeepalive))
+  }
+  
   responseTimeWithoutKeepAliveArray.push(
-    await measureReponseTime("/test", axiosInstanceWithoutKeepalive)
+    ...await Promise.all(promises)
   )
 }
 
