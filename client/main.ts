@@ -22,12 +22,7 @@ async function measureReponseTime(endpoint:string, axiosInstance:AxiosInstance):
   
   const start = performance.now()
   try {
-    const promises: Promise<number>[] = []
-      for (let index = 0; index < 4; index++) {
-        promises.push(axiosInstance.get(endpoint))
-      }
-    const responses = await Promise.all(promises);
-    
+    const responses = await axiosInstance.get(endpoint);
   } catch (error) {
     console.error('Error ', (error as Error).message);
     throw error;
