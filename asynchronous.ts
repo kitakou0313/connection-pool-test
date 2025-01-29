@@ -84,3 +84,14 @@ const resOfPattern3 = pattern3()
 function pattern4(){
     return 1
 }
+
+// 考察
+
+// awaitはPromiseを完全に除外するためのものではない？
+// awaitを使うとasync expressionをfunctionにつける必要がある
+// async expressionを使うと返り値が自動でPromiseになるため，最終的にはどこかでPromiseを取り扱う必要がでてくる（Top level awaitを除く）
+
+// 複数処理を並列に行う場合はPromiseを直接扱う必要がある？
+// awaitは指定したPromiseの完了を待つため
+
+// async expressionをつけると返り値が自動でPromiseに含まれる形になる？
