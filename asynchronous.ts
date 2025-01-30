@@ -1,12 +1,16 @@
 // Promiseは非同期処理の最終的な結果を表すobject
 
+import { resolve } from "path"
+
 let promise = new Promise((resolve, reject) => {
     // 何らかの非同期処理
 
-    // 成功時
+    // 成功時はresolveを実行する
+    // 引数に与えた値がPromise.thenで実行するコールバック関数で引数として受け取れる
     resolve("This task is completed")
 
     // 失敗時
+    // 引数に与えた値がPromise.catchで実行するコールバック関数で引数として受け取れる
     reject("Task is failed")
 })
 
@@ -14,6 +18,17 @@ promise.then((result) => {
     console.log(result)
 }).catch((error) => {
     console.log(error)
+})
+
+const promiseNumber = new Promise<number>((resolve, reject) => {
+    // 何らかの非同期処理の結果としてnumber型の値を得る
+    const resOfAsyncOperation = 1000
+    
+    resolve(resOfAsyncOperation)
+})
+
+promiseNumber.then((res) => {
+    console.log(res)
 })
 
 // async keyword
