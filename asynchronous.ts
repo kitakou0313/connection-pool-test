@@ -1,6 +1,7 @@
 // Promiseは非同期処理の最終的な結果を表すobject
 
 import { resolve } from "path"
+import { UnionType } from "typescript"
 
 let promise = new Promise((resolve, reject) => {
     // 何らかの非同期処理
@@ -27,9 +28,9 @@ const promiseNumber = new Promise<number>((resolve, reject) => {
     resolve(resOfAsyncOperation)
 })
 
-promiseNumber.then((res) => {
-    console.log(res)
-})
+// promiseNumber.then((res) => {
+//     console.log(res)
+// })
 
 // async keyword
 // Promiseを返す関数を表す
@@ -39,18 +40,18 @@ promiseNumber.then((res) => {
 // async functionの中でのみ使用可能
 // ESではTop level awaitというのもある
 
-async function fetchData() {
-    try {
-        let response = await fetch("localhost:300/test");
-        let data = await response.json()
+// async function fetchData() {
+//     try {
+//         let response = await fetch("localhost:300/test");
+//         let data = await response.json()
 
-        return data
-    } catch (error) {
-        console.error("Error:", error)
-    }
-}
+//         return data
+//     } catch (error) {
+//         console.error("Error:", error)
+//     }
+// }
 
-const res = await fetchData()
+// const res = await fetchData()
 
 // パターン
 // Promiseを返す + asyncあり
@@ -108,6 +109,30 @@ function pattern4(){
 
 // 複数処理を並列に行う場合はPromiseを直接扱う必要がある？
 // awaitは指定したPromiseの完了を待つため
+
+async function doSomethingAsync(i:number) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(`I'm in loop ${i}.`)
+            resolve("Done")
+        }, Math.random() * 5000)
+    });
+}
+
+async function doSomethingsWithAwaitAndPromise() {
+    const promises:Promise<unknown>[] = []
+    
+    for (let index = 0; index < 10; index++) {
+        promises.push(doSomethingAsync(index))
+    }
+
+    // 並行に処理を実行し，awaitで待つ
+    await Promise.all(promises)
+
+    console.log("Done")
+}
+
+doSomethingsWithAwaitAndPromise()
 
 // async expressionをつけると返り値が自動でPromiseに含まれる形になる？
 
