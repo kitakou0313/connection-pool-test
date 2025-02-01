@@ -103,6 +103,15 @@ function pattern4(){
 
 // 考察
 
+// awaitがasync functionの中（or Module）の中での利用を推奨される理由
+// await expressionの実行がmainスレッドの実行をblockしないようにするため
+// asuyc functionはそれ自体が非同期でPromiseを返すため
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await
+
+// TODO
+// async functionと通常の関数の違いをブロックに注目して調べる
+
 // awaitはPromiseを完全に除外するためのものではない？
 // awaitを使うとasync expressionをfunctionにつける必要がある
 // async expressionを使うと返り値が自動でPromiseになるため，最終的にはどこかでPromiseを取り扱う必要がでてくる（Top level awaitを除く）
