@@ -110,3 +110,6 @@ function pattern4(){
 // awaitは指定したPromiseの完了を待つため
 
 // async expressionをつけると返り値が自動でPromiseに含まれる形になる？
+
+// 両方正解
+// https://jsprimer.net/basic/async/#relationship-promise-async-function
