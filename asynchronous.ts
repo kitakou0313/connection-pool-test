@@ -1,10 +1,10 @@
-// Promiseは非同期処理の最終的な結果を表すobject
-
-import { resolve } from "path"
-import { UnionType } from "typescript"
+// Promiseは非同期処理，およびその最終的な結果を表すobject
 
 let promise = new Promise((resolve, reject) => {
     // 何らかの非同期処理
+    setTimeout(() => {
+        console.log("Done in async")
+    })
 
     // 成功時はresolveを実行する
     // 引数に与えた値がPromise.thenで実行するコールバック関数で引数として受け取れる
@@ -13,7 +13,14 @@ let promise = new Promise((resolve, reject) => {
     // 失敗時
     // 引数に与えた値がPromise.catchで実行するコールバック関数で引数として受け取れる
     reject("Task is failed")
+
+    // Promiseにはfulfilled, Rejected, Pendingの3状態があり以下のように遷移する
+    // Peinding -> fulfilled, or Pending -> Rejected
+    // resolve, rejectを実行したときに変化する
+    // なので，resolve実行後にrejectを呼んでも変化せず，catchに渡した関数は実行されない（逆も同じ）
 })
+
+// Javasciptでは並行処理（複数のタスクを単一のCPUが処理を切り替えながら実行する）で非同期処理が行われる
 
 promise.then((result) => {
     console.log(result)
@@ -28,9 +35,9 @@ const promiseNumber = new Promise<number>((resolve, reject) => {
     resolve(resOfAsyncOperation)
 })
 
-// promiseNumber.then((res) => {
-//     console.log(res)
-// })
+promiseNumber.then((res) => {
+    console.log(res)
+})
 
 // async keyword
 // Promiseを返す関数を表す
